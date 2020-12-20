@@ -1,7 +1,7 @@
 const fs = require("fs");
 var data = fs.readFileSync("input.txt",{"encoding":"utf-8"}).replace(/(\r)/g,"").split("\n");
 
-const BENCHMARK = true;
+const BENCHMARK = false;
 
 function solve_part1(array) {
 	if(BENCHMARK) var start = (new Date()).getTime();
@@ -60,37 +60,5 @@ function solve_part2(arr) {
 	return last;
 }
 
-function solve_part2_v2(arr) {
-	if(BENCHMARK) var start = (new Date()).getTime();
-	arr=arr[0].split(",").map(v=>parseInt(v));
-	var cnts=[]; // [value] : cnt
-	var inds=[]; // [value] : last index
-	arr.forEach((v,i)=>{
-		while(cnts.length<=v){cnts.push(0);inds.push(0);}
-		cnts[v]++;
-		inds[v]=i;
-	});
-	var last = arr[arr.length-1];
-	const reps = 10-arr.length;
-	// const reps = (BENCHMARK?2020:30000000)-arr.length;
-	for(var i=0;i<reps;i++) {
-		if(cnts[last]==1) {
-			cnts[0]++;
-			inds[0] = i;
-			last = 0;
-			console.log(0);
-		} else {
-			console.log(last);
-		}
-	}
-
-	if(BENCHMARK) {
-		var end = (new Date()).getTime();
-		console.log("Optimized 2 Milliseconds:",end-start);
-	}
-	return last;
-}
-
 console.log("Solution 1",solve_part1(data));
 console.log("Solution 2",solve_part2(data));
-console.log("Solution 3",solve_part2_v2(data));
